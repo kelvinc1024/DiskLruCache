@@ -484,17 +484,6 @@ public final class DiskLruCacheTest {
     assertThat(cache.size()).isEqualTo(12);
   }
 
-  @Test public void shrinkMaxSizeEvicts() throws Exception {
-    cache.close();
-    cache = DiskLruCache.open(cacheDir, appVersion, 2, 20);
-    set("a", "a", "aaa"); // size 4
-    set("b", "bb", "bbbb"); // size 6
-    set("c", "c", "c"); // size 12
-    cache.setMaxSize(10);
-    assertThat(cache.executorService.getQueue().size()).isEqualTo(1);
-    cache.executorService.purge();
-  }
-
   @Test public void evictOnInsert() throws Exception {
     cache.close();
     cache = DiskLruCache.open(cacheDir, appVersion, 2, 10);
